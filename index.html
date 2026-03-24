@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MIS Extra Credit – Chapter 5: Zara & Supply Chain</title>
+  <style>
+    :root {
+      --bg: #fff4e8;
+      --card: rgba(255,255,255,0.9);
+      --text: #35210f;
+      --muted: #7a614d;
+      --line: rgba(180, 111, 35, 0.14);
+      --primary: #c46a1a;
+      --primary-dark: #8c4a0f;
+      --accent: #ffd9b3;
+      --shadow: 0 18px 40px rgba(92, 56, 18, 0.10);
+      --radius: 22px;
+      --max: 1120px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      font-family: Inter, Arial, Helvetica, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(255, 217, 179, 0.85), transparent 30%),
+        radial-gradient(circle at top right, rgba(196, 106, 26, 0.10), transparent 25%),
+        linear-gradient(180deg, #fffaf5 0%, var(--bg) 52%, #f9e8d5 100%);
+      line-height: 1.65;
+    }
+
+    .container {
+      width: min(var(--max), calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      backdrop-filter: blur(16px);
+      background: rgba(255, 250, 245, 0.84);
+      border-bottom: 1px solid rgba(196, 106, 26, 0.10);
+    }
+
+    .topbar-inner {
+      width: min(var(--max), calc(100% - 32px));
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      padding: 14px 0;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 800;
+      letter-spacing: 0.2px;
+    }
+
+    .brand-badge {
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, var(--primary), #e59645);
+      color: white;
+      box-shadow: 0 10px 24px rgba(196, 106, 26, 0.24);
+      font-size: 0.95rem;
+    }
+
+    .nav-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      padding: 10px 14px;
+      border-radius: 999px;
+      color: var(--primary-dark);
+      font-weight: 700;
+      font-size: 0.95rem;
+      transition: 0.2s ease;
+    }
+
+    .nav-links a:hover {
+      background: rgba(196, 106, 26, 0.08);
+      transform: translateY(-1px);
+    }
+
+    .hero {
+      padding: 56px 0 28px;
+    }
+
+    .hero-wrap {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 22px;
+      align-items: stretch;
+    }
+
+    .hero-card,
+    .side-card,
+    .section-card,
+    .quiz-card,
+    .source-card {
+      background: var(--card);
+      border: 1px solid rgba(255,255,255,0.55);
+      box-shadow: var(--shadow);
+      border-radius: var(--radius);
+      backdrop-filter: blur(14px);
+    }
+
+    .hero-card {
+      padding: 34px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-card::after {
+      content: "";
+      position: absolute;
+      right: -40px;
+      top: -30px;
+      width: 180px;
+      height: 180px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255, 217, 179, 0.95), rgba(255, 217, 179, 0));
+    }
+
+    .eyebrow {
+      display: inline-block;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(196, 106, 26, 0.10);
+      color: var(--primary-dark);
+      font-size: 0.84rem;
+      font-weight: 800;
+      letter-spacing: 0.3px;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(2rem, 4vw, 3.25rem);
+      line-height: 1.08;
+      letter-spacing: -0.03em;
+      max-width: 760px;
+    }
+
+    .hero p {
+      color: var(--muted);
+      font-size: 1.05rem;
+      max-width: 760px;
+      margin: 16px 0 0;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 22px;
+    }
+
+    .btn {
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px 18px;
+      border-radius: 14px;
+      font-weight: 800;
+      transition: 0.2s ease;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary), #e59645);
+      color: white;
+      box-shadow: 0 10px 24px rgba(196, 106, 26, 0.22);
+    }
+
+    .btn-secondary {
+      background: rgba(255,255,255,0.78);
+      color: var(--primary-dark);
+      border: 1px solid var(--line);
+    }
+
+    .btn:hover { transform: translateY(-2px); }
+
+    .side-card {
+      padding: 24px;
+      display: grid;
+      gap: 14px;
+      align-content: start;
+    }
+
+    .mini-stat {
+      padding: 16px;
+      border-radius: 18px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.92), rgba(255,247,239,0.78));
+      border: 1px solid var(--line);
+    }
+
+    .mini-stat .label {
+      color: var(--muted);
+      font-size: 0.86rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      font-weight: 700;
+    }
+
+    .mini-stat .value {
+      margin-top: 6px;
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: var(--primary-dark);
+    }
+
+    main {
+      padding: 8px 0 56px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 22px;
+    }
+
+    .section-card,
+    .quiz-card,
+    .source-card {
+      padding: 28px;
+    }
+
+    h2 {
+      margin: 0 0 14px;
+      font-size: 1.55rem;
+      letter-spacing: -0.02em;
+      color: var(--primary-dark);
+    }
+
+    .section-intro {
+      color: var(--muted);
+      margin-bottom: 18px;
+    }
+
+    .overview-grid,
+    .term-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .overview-item,
+    .term {
+      background: linear-gradient(180deg, rgba(255,255,255,0.95), rgba(255,247,239,0.82));
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 18px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .term::before,
+    .overview-item::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 5px;
+      background: linear-gradient(90deg, var(--primary), #efbc82);
+    }
+
+    .overview-item strong,
+    .term strong {
+      display: block;
+      color: var(--primary-dark);
+      font-size: 1.04rem;
+      margin-bottom: 8px;
+    }
+
+    .highlight {
+      margin-top: 18px;
+      padding: 16px 18px;
+      border-radius: 18px;
+      background: linear-gradient(135deg, rgba(196, 106, 26, 0.11), rgba(255, 217, 179, 0.35));
+      border: 1px solid rgba(196, 106, 26, 0.16);
+      font-weight: 700;
+    }
+
+    .quiz-list {
+      display: grid;
+      gap: 18px;
+    }
+
+    .quiz-question {
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 20px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.95), rgba(255,246,236,0.78));
+    }
+
+    .quiz-question .scenario {
+      color: var(--muted);
+      margin-bottom: 12px;
+    }
+
+    .quiz-question strong {
+      display: block;
+      margin-bottom: 10px;
+      color: var(--text);
+      font-size: 1.02rem;
+    }
+
+    .quiz-question ul {
+      margin: 0;
+      padding-left: 20px;
+      color: var(--muted);
+    }
+
+    .quiz-question li { margin-bottom: 6px; }
+
+    .answer {
+      margin-top: 12px;
+      display: inline-block;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(20, 106, 63, 0.10);
+      color: #176540;
+      font-weight: 800;
+      font-size: 0.92rem;
+    }
+
+    .explanation {
+      margin-top: 10px;
+      color: var(--muted);
+    }
+
+    .source-list {
+      margin: 0;
+      padding-left: 20px;
+    }
+
+    .source-list li { margin-bottom: 8px; }
+
+    @media (max-width: 900px) {
+      .hero-wrap,
+      .overview-grid,
+      .term-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .topbar-inner {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .hero-card,
+      .section-card,
+      .quiz-card,
+      .source-card,
+      .side-card {
+        padding: 22px;
+      }
+
+      .nav-links a {
+        padding: 8px 12px;
+        font-size: 0.9rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">
+        <div class="brand-badge">MIS</div>
+        <div>Chapter 5 Study Guide</div>
+      </div>
+      <div class="nav-links">
+        <a href="#overview">Overview</a>
+        <a href="#vocabulary">Vocabulary</a>
+        <a href="#connections">Why It Matters</a>
+        <a href="#quiz">Quiz</a>
+        <a href="#sources">Sources</a>
+      </div>
+    </div>
+  </div>
+
+  <section class="hero">
+    <div class="container hero-wrap">
+      <div class="hero-card">
+        <div class="eyebrow">Chapter 5 • Zara & Supply Chain</div>
+        <h1>See how Zara uses information systems, tight coordination, and supply chain design to move faster than rivals.</h1>
+        <p>
+          This chapter focuses on Zara’s business model, the 5-component information system in a real company,
+          vertical integration, supply chain management, disintermediation, distributors, the bullwhip effect,
+          contract manufacturing, and why Zara is difficult to copy.
+        </p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#vocabulary">Review Concepts</a>
+          <a class="btn btn-secondary" href="#quiz">Take Practice Quiz</a>
+        </div>
+      </div>
+
+      <aside class="side-card">
+        <div class="mini-stat">
+          <div class="label">Main Idea</div>
+          <div class="value">Inventory is dangerous if you move too slowly</div>
+        </div>
+        <div class="mini-stat">
+          <div class="label">Big Advantage</div>
+          <div class="value">Speed plus coordination</div>
+        </div>
+        <div class="mini-stat">
+          <div class="label">Best Reminder</div>
+          <div class="value">Tech should support the business model</div>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <main>
+    <div class="container grid">
+      <section class="section-card" id="overview">
+        <h2>Chapter Overview</h2>
+        <p class="section-intro">
+          Chapter 5 uses Zara to show how information systems and supply chain choices can create a strong competitive advantage. Zara’s model leads to competitively priced merchandise, higher margins, fewer markdowns and write-offs, faster inventory turnover, reduced risk, and less advertising pressure.
+        </p>
+        <div class="overview-grid">
+          <div class="overview-item">
+            <strong>Zara vs. Gap</strong>
+            Zara designs, produces, and distributes with much tighter coordination, while Gap relies more on seasonal design cycles and outsourced large-batch production.
+          </div>
+          <div class="overview-item">
+            <strong>5-Component IS Model</strong>
+            Zara’s hardware, software, data, processes, and people all support the same fast-response business model.
+          </div>
+          <div class="overview-item">
+            <strong>Supply Chain Design</strong>
+            Vertical integration, just-in-time thinking, and finely tuned logistics help Zara move concepts from idea to stores in about fifteen days on average.
+          </div>
+          <div class="overview-item">
+            <strong>SCM Risks and Tradeoffs</strong>
+            The chapter also covers distributors, disintermediation, the bullwhip effect, outsourcing, contract manufacturing, and ethics problems in apparel supply chains.
+          </div>
+        </div>
+      </section>
+
+      <section class="section-card" id="vocabulary">
+        <h2>Vocabulary and Key Concepts</h2>
+        <p class="section-intro">These are the Chapter 5 ideas most likely to show up in scenario-based questions.</p>
+
+        <div class="term-grid">
+          <div class="term">
+            <strong>Supply Chain Management (SCM)</strong>
+            The structuring and coordination of relationships and activities across firms to deliver value in an information- and technology-intensive global environment.
+          </div>
+          <div class="term">
+            <strong>Supply Chain</strong>
+            A network that moves inputs and finished goods from suppliers to manufacturers, distributors, retailers, and consumers.
+          </div>
+          <div class="term">
+            <strong>Vertical Integration</strong>
+            When a single firm owns several layers in its supply chain. Zara uses this to support faster coordination and data sharing.
+          </div>
+          <div class="term">
+            <strong>Just-in-Time Manufacturing</strong>
+            A system that aims to reduce excess inventory by producing and moving goods quickly and efficiently as needed.
+          </div>
+          <div class="term">
+            <strong>Disintermediation</strong>
+            Cutting out the middleman so a manufacturer ships directly to the consumer or removes one or more channel layers.
+          </div>
+          <div class="term">
+            <strong>Distributor</strong>
+            An intermediary that helps connect multiple manufacturers to multiple retailers or buyers, reducing the complexity of direct connections.
+          </div>
+          <div class="term">
+            <strong>Bullwhip Effect</strong>
+            The pattern in which variability in order size and timing increases at each stage up the supply chain, reducing overall profitability.
+          </div>
+          <div class="term">
+            <strong>Interorganizational Information System</strong>
+            A system that shares data across firms so participants can coordinate better, especially by giving everyone access to consumer-demand information.
+          </div>
+          <div class="term">
+            <strong>Core Competencies</strong>
+            The activities an organization does best and believes provide competitive advantage.
+          </div>
+          <div class="term">
+            <strong>Contract Manufacturing</strong>
+            Outsourcing production to third-party firms that make requested goods even though the brand does not own the plants or directly employ the workers.
+          </div>
+          <div class="term">
+            <strong>Service Level Agreement (SLA)</strong>
+            An agreement that defines responsibilities and expected service performance when work is handled by a third party.
+          </div>
+          <div class="term">
+            <strong>RFID</strong>
+            Radio-frequency identification tags that help track inventory quickly and accurately. Zara uses them to count store inventory more often with less labor.
+          </div>
+        </div>
+
+        <div class="highlight">
+          Quick exam shortcut: Zara does not win by using the fanciest technology. It wins because relatively simple technology is tightly aligned with its business model, data flow, logistics, and fast decision making.
+        </div>
+      </section>
+
+      <section class="section-card" id="connections">
+        <h2>Why These Ideas Matter</h2>
+        <p>
+          This chapter matters because it shows that information systems only create value when they support what the firm is trying to do strategically. Zara spends less than the fast fashion industry average on technology, yet it uses that technology in a way that strengthens speed, coordination, and inventory control.
+        </p>
+        <p>
+          It also shows that supply chain choices always involve tradeoffs. Firms can outsource to lower cost and reduce capital requirements, but they may lose control, face ethical risks, or create coordination problems. Meanwhile, better information sharing can reduce the bullwhip effect, improve delivery scheduling, and help firms hold less inventory.
+        </p>
+      </section>
+
+      <section class="quiz-card" id="quiz">
+        <h2>Chapter 5 Practice Quiz</h2>
+        <div class="quiz-list">
+          <div class="quiz-question">
+            <div class="scenario">A clothing retailer studies Zara and notices that Zara’s factories, distribution, inventory tracking, and store feedback systems all work together to get new styles into stores quickly. The retailer also notices that Zara does not simply buy a lot of flashy technology. Instead, the technology is chosen to support the firm’s fast-response business model.</div>
+            <strong>1. Which statement BEST explains why Zara’s information systems create value?</strong>
+            <ul>
+              <li>A. Zara spends more on technology than everyone else</li>
+              <li>B. Zara uses technology mainly for advertising</li>
+              <li>C. Zara’s technology is aligned with its business model</li>
+              <li>D. Zara avoids using data in its supply chain</li>
+            </ul>
+            <div class="answer">Correct Answer: C</div>
+            <div class="explanation">Explanation: The slides stress that Zara’s technology supports its business model rather than existing just for the sake of technology. Choice A is wrong because the chapter explicitly says Zara spends less than the fast fashion industry average on technology. Choice B is too narrow and does not match the core lesson. Choice D is the opposite of the case, since Zara depends heavily on shared sales-floor and supply-chain data.</div>
+          </div>
+
+          <div class="quiz-question">
+            <div class="scenario">A rival apparel company relies on outside factories that produce large quantities of a seasonal design months in advance. Zara, by contrast, can change design and color quickly and move ideas to stores in roughly two weeks. When customer tastes shift unexpectedly, Zara adjusts while the rival is stuck clearing out unsold goods.</div>
+            <strong>2. Which concept BEST explains Zara’s advantage in this scenario?</strong>
+            <ul>
+              <li>A. Vertical integration and finely tuned logistics</li>
+              <li>B. Product bundling and envelopment</li>
+              <li>C. Backward compatibility and convergence</li>
+              <li>D. Capital intensity and network effects</li>
+            </ul>
+            <div class="answer">Correct Answer: A</div>
+            <div class="explanation">Explanation: Zara’s supply chain advantage comes from owning more layers of the chain and coordinating them closely, along with fast logistics. The other answer choices come from different chapters and do not explain the operational speed described. The story is about responsiveness, low cycle time, and coordination, which is exactly what vertical integration plus logistics supports.</div>
+          </div>
+
+          <div class="quiz-question">
+            <div class="scenario">A manufacturer decides to sell laptops directly from its website to customers instead of sending them through distributors and electronics retailers. The firm believes that cutting out middle layers will improve control and reduce some channel costs, though it also knows it will now need to handle more of the selling process itself.</div>
+            <strong>3. Which supply chain concept BEST fits this decision?</strong>
+            <ul>
+              <li>A. Bullwhip effect</li>
+              <li>B. Disintermediation</li>
+              <li>C. Contract manufacturing</li>
+              <li>D. Omnichannel retailing</li>
+            </ul>
+            <div class="answer">Correct Answer: B</div>
+            <div class="explanation">Explanation: Disintermediation means cutting out the middleman, such as distributors or retailers, and selling more directly. Bullwhip effect refers to order variability growing up the supply chain. Contract manufacturing is outsourcing production to third parties. Omnichannel retailing is not the main idea here because the key change is the removal of intermediaries.</div>
+          </div>
+
+          <div class="quiz-question">
+            <div class="scenario">A grocery chain notices that a small increase in customer purchases causes retailers to place much larger orders with distributors, which then causes manufacturers to overreact even more. Soon, every stage of the chain is dealing with larger swings in orders than actual shoppers created in the first place.</div>
+            <strong>4. Which concept BEST explains this pattern?</strong>
+            <ul>
+              <li>A. Network effects</li>
+              <li>B. Economies of scale</li>
+              <li>C. Bullwhip effect</li>
+              <li>D. Switching costs</li>
+            </ul>
+            <div class="answer">Correct Answer: C</div>
+            <div class="explanation">Explanation: The bullwhip effect is the increase in order variability and distortion as information moves up a multistage supply chain. Network effects and switching costs are customer-side concepts from other topics. Economies of scale concern average cost reductions as output rises, not distorted ordering patterns. The scenario directly matches the bullwhip effect definition.</div>
+          </div>
+
+          <div class="quiz-question">
+            <div class="scenario">A fashion brand wants to reduce the bullwhip effect. Instead of letting each firm in the chain guess demand on its own, the brand shares real consumer purchase data with suppliers, manufacturers, and distributors so everyone can react to the same underlying information.</div>
+            <strong>5. Which action would MOST directly help achieve this goal?</strong>
+            <ul>
+              <li>A. Hiding retail sales data from upstream firms</li>
+              <li>B. Using interorganizational information systems to share consumer-demand information</li>
+              <li>C. Increasing the number of handoffs in the channel</li>
+              <li>D. Making each firm create larger safety-stock orders</li>
+            </ul>
+            <div class="answer">Correct Answer: B</div>
+            <div class="explanation">Explanation: The slides say the way to stop the bullwhip effect is to let all participants have access to consumer-demand information, and interorganizational systems are essential for that. Choices A, C, and D would usually make coordination worse, not better. The whole point is to reduce distortion by sharing better data across firms.</div>
+          </div>
+
+          <div class="quiz-question">
+            <div class="scenario">A retailer is deciding whether to keep using many distributors. Managers realize that without distributors, every manufacturer would need direct relationships with many small buyers, creating a messy web of connections. With a distributor in the middle, the network becomes simpler and easier to coordinate.</div>
+            <strong>6. Which is the BEST reason distributors can still create value?</strong>
+            <ul>
+              <li>A. They always eliminate all supply chain cost</li>
+              <li>B. They reduce the complexity of many-to-many channel connections</li>
+              <li>C. They make bullwhip effects impossible</li>
+              <li>D. They guarantee perfect forecasts of consumer demand</li>
+            </ul>
+            <div class="answer">Correct Answer: B</div>
+            <div class="explanation">Explanation: The distributor diagrams in the chapter show how a distributor can simplify the network between many manufacturers and many buyers. Choices A, C, and D are too absolute and unsupported. Distributors can create value, but they do not remove every cost, guarantee perfect demand knowledge, or eliminate all supply chain problems.</div>
+          </div>
+
+          <div class="quiz-question">
+            <div class="scenario">An apparel brand outsources production to third-party factories in order to lower costs and avoid building its own manufacturing infrastructure. Later, reports reveal poor labor conditions and environmental abuse at some of those factories. The brand faces negative press, legal exposure, and damage to its reputation even though it does not directly own the plants.</div>
+            <strong>7. Which concept BEST fits this situation?</strong>
+            <ul>
+              <li>A. Contract manufacturing creates cost advantages but can also create major ethical and brand risks</li>
+              <li>B. Vertical integration always increases legal exposure and weakens control</li>
+              <li>C. Disintermediation is the main reason for the labor problem</li>
+              <li>D. Network effects are forcing the company to outsource labor</li>
+            </ul>
+            <div class="answer">Correct Answer: A</div>
+            <div class="explanation">Explanation: The chapter says contract manufacturing can lower costs and raise profits, but it can also lead to labor, environmental, legal, and brand problems. Choice B is wrong because vertical integration usually gives more direct control, not less. Choice C does not match the scenario, since the issue is outsourced production, not cutting out intermediaries. Choice D is unrelated to the apparel ethics problem described.</div>
+          </div>
+
+          <div class="quiz-question">
+            <div class="scenario">A rival fast-fashion company says it wants to copy Zara exactly, but its leadership team prefers outsourcing because they believe their core competency is branding and merchandising rather than owning factories and logistics systems. They also want to reduce capital requirements and shorten time to market by relying on external partners.</div>
+            <strong>8. Which is the BEST explanation for why not every firm copies Zara’s model?</strong>
+            <ul>
+              <li>A. Zara’s model is illegal in most countries</li>
+              <li>B. Many firms focus on core competencies and prefer outsourcing tradeoffs instead</li>
+              <li>C. RFID technology is too new and expensive for rivals</li>
+              <li>D. Consumers dislike tightly coordinated supply chains</li>
+            </ul>
+            <div class="answer">Correct Answer: B</div>
+            <div class="explanation">Explanation: The slides explain that many organizations do not copy Zara because they focus on what they do best and outsource other activities to avoid infrastructure cost, payroll, and capital requirements. Choice C is incorrect because the chapter notes RFID is old, cheap technology. Choices A and D are unsupported. The real issue is strategic tradeoffs, not impossibility.</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="source-card" id="sources">
+        <h2>Sources</h2>
+        <ul class="source-list">
+          <li>Course slides: <em>Zara &amp; Supply Chain</em>.</li>
+          <li>Topics include Zara vs. Gap, vertical integration, RFID, supply chain management, distributors, the bullwhip effect, and contract manufacturing.</li>
+        </ul>
+      </section>
+    </div>
+  </main>
+</body>
+</html>
